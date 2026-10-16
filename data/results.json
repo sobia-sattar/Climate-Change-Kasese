@@ -1,0 +1,91 @@
+{
+  "dataset_status": "SIMULATED",
+  "warning": "DEMONSTRATION ONLY: These verification metrics are simulated for pipeline integration testing and do NOT represent actual observed station verification.",
+  "last_updated": "2026-10-16T12:00:00Z",
+  "records": [
+    {
+      "city": "Kampala, Uganda",
+      "source": "Open-Meteo (ECMWF IFS)",
+      "lead_h": 6,
+      "n": 60,
+      "hits": 22,
+      "misses": 3,
+      "false_alarms": 4,
+      "correct_negatives": 31,
+      "hit_rate": 0.88,
+      "false_alarm_ratio": 0.15,
+      "mae_mm": 1.4,
+      "is_simulated": true
+    },
+    {
+      "city": "Kampala, Uganda",
+      "source": "Open-Meteo (ECMWF IFS)",
+      "lead_h": 24,
+      "n": 60,
+      "hits": 18,
+      "misses": 7,
+      "false_alarms": 8,
+      "correct_negatives": 27,
+      "hit_rate": 0.72,
+      "false_alarm_ratio": 0.31,
+      "mae_mm": 2.8,
+      "is_simulated": true
+    },
+    {
+      "city": "Kampala, Uganda",
+      "source": "GFS 0.25deg",
+      "lead_h": 24,
+      "n": 25,
+      "hits": 7,
+      "misses": 4,
+      "false_alarms": 6,
+      "correct_negatives": 8,
+      "hit_rate": 0.64,
+      "false_alarm_ratio": 0.46,
+      "mae_mm": 3.9,
+      "is_simulated": true
+    },
+    {
+      "city": "Lahore, Pakistan",
+      "source": "Open-Meteo (ECMWF IFS)",
+      "lead_h": 12,
+      "n": 45,
+      "hits": 9,
+      "misses": 2,
+      "false_alarms": 3,
+      "correct_negatives": 31,
+      "hit_rate": 0.82,
+      "false_alarm_ratio": 0.25,
+      "mae_mm": 1.1,
+      "is_simulated": true
+    },
+    {
+      "city": "Lahore, Pakistan",
+      "source": "GFS 0.25deg",
+      "lead_h": 24,
+      "n": 45,
+      "hits": 6,
+      "misses": 5,
+      "false_alarms": 7,
+      "correct_negatives": 27,
+      "hit_rate": 0.55,
+      "false_alarm_ratio": 0.54,
+      "mae_mm": 3.1,
+      "is_simulated": true
+    },
+    {
+      "city": "Lahore, Pakistan",
+      "source": "Icon Global",
+      "lead_h": 48,
+      "n": 18,
+      "hits": 3,
+      "misses": 3,
+      "false_alarms": 4,
+      "correct_negatives": 8,
+      "hit_rate": 0.50,
+      "false_alarm_ratio": 0.57,
+      "mae_mm": 4.5,
+      "is_simulated": true
+    }
+  ]
+}
