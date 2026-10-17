@@ -24,17 +24,21 @@
 ```text
 NYLP HACKATHON/
 │
-├── app.py                   # Streamlit interactive multi-page web application
+├── app.py                   # Streamlit web app in modern FloodSimple Insurtech UI design
 ├── weather_service.py       # Live Country Weather API integration (Open-Meteo WMO / National Models)
+├── forecast_logger.py       # Automated forecast ingestion, valid/issue time logging & lead-time filtering (>=6h)
+├── verifier.py              # Scientific Forecast Verification Engine (2x2 contingency matrix, 1.0mm threshold)
 ├── advice.py                # Advice generation engine, deterministic fallbacks & numeric safety guard
 ├── translations.py          # Multilingual dictionary (English, Urdu, Luganda) & review metadata
 │
 ├── data/
-│   ├── results.json         # Verification metrics from teammates (clearly labeled SIMULATED for demo)
-│   └── feedback.json        # Community ground-truth observations (isolated from verification data)
+│   ├── results.json         # Standardized verification metrics contract (hits, misses, FAR, MAE)
+│   ├── forecast_logs.json   # Archival storage of paired forecast and station valid-time records
+│   └── feedback.json        # Community ground-truth observations (isolated from scientific metrics)
 │
 ├── tests/
-│   └── test_advice.py       # Automated unit tests for advice guard, fallbacks & edge cases
+│   ├── test_advice.py       # Unit tests for safety guard, numeric anti-hallucination, and fallbacks
+│   └── test_verifier.py     # Unit tests for 1.0mm rain threshold, contingency table, and MAE math
 │
 ├── requirements.txt         # Python package dependencies
 ├── .gitignore               # Ignores temp files, virtual environments, and secrets
@@ -45,13 +49,16 @@ NYLP HACKATHON/
 
 | File | Purpose |
 | :--- | :--- |
-| **[app.py](file:///c:/Users/Sobia/Downloads/NYLP%20HACKATHON/app.py)** | The main web dashboard built with Streamlit. Orchestrates pages (**Evidence**, **Advice**, **Feedback**) with sleek animations, interactive Plotly gauges, and live weather ribbons. |
-| **[weather_service.py](file:///c:/Users/Sobia/Downloads/NYLP%20HACKATHON/weather_service.py)** | Fetches real-time country-level weather from Open-Meteo for Uganda (Kampala) and Pakistan (Lahore, Karachi, Islamabad) with WMO code translation and offline caching. |
-| **[advice.py](file:///c:/Users/Sobia/Downloads/NYLP%20HACKATHON/advice.py)** | Pure Python module containing the business logic. Classifies weather evidence, validates LLM responses with a **regex-based Numeric Safety Guard**, and provides offline deterministic templates. |
+| **[app.py](file:///c:/Users/Sobia/Downloads/NYLP%20HACKATHON/app.py)** | The main web dashboard built in the **FloodSimple Insurtech style**. Deep slate & electric azure accents, KPI stat widgets, Plotly reliability dial, and sector action hubs. |
+| **[weather_service.py](file:///c:/Users/Sobia/Downloads/NYLP%20HACKATHON/weather_service.py)** | Real-time country-level weather from Open-Meteo for Uganda (Kampala) and Pakistan (Lahore, Karachi, Islamabad) with WMO code translation and offline caching. |
+| **[forecast_logger.py](file:///c:/Users/Sobia/Downloads/NYLP%20HACKATHON/forecast_logger.py)** | Archives multi-hourly forecasts with explicit issue times, valid times, and filters forecasts for lead times $\ge 6\text{h}$. |
+| **[verifier.py](file:///c:/Users/Sobia/Downloads/NYLP%20HACKATHON/verifier.py)** | The scientific verification engine computing $2\times 2$ contingency tables (Hits, Misses, False Alarms, Correct Negatives) at the agreed **$1.0\text{ mm}$ rain threshold**, Hit Rate (POD), False Alarm Ratio (FAR), and Mean Absolute Error (MAE). |
+| **[advice.py](file:///c:/Users/Sobia/Downloads/NYLP%20HACKATHON/advice.py)** | Business logic module. Classifies weather evidence, validates LLM responses with a **regex-based Numeric Safety Guard**, and provides offline deterministic templates. |
 | **[translations.py](file:///c:/Users/Sobia/Downloads/NYLP%20HACKATHON/translations.py)** | Keeps UI text and fallback templates organized in English, Urdu, and Luganda. Holds metadata on whether a translation is verified or pending fluent speaker review. |
-| **[data/results.json](file:///c:/Users/Sobia/Downloads/NYLP%20HACKATHON/data/results.json)** | Standardized integration contract for verification teammate (`city`, `source`, `lead_h`, `n`, `hits`, `misses`, `false_alarms`, `correct_negatives`, `hit_rate`, `false_alarm_ratio`, `mae_mm`). |
+| **[data/results.json](file:///c:/Users/Sobia/Downloads/NYLP%20HACKATHON/data/results.json)** | Standardized integration contract (`city`, `source`, `lead_h`, `n`, `hits`, `misses`, `false_alarms`, `correct_negatives`, `hit_rate`, `false_alarm_ratio`, `mae_mm`). |
 | **[data/feedback.json](file:///c:/Users/Sobia/Downloads/NYLP%20HACKATHON/data/feedback.json)** | JSON storage for crowd observations. Writes are isolated so community feedback never alters scientific metrics. |
-| **[tests/test_advice.py](file:///c:/Users/Sobia/Downloads/NYLP%20HACKATHON/tests/test_advice.py)** | Pytest test suite demonstrating safety compliance: rejecting hallucinated rainfall numbers, testing live weather validation, testing small-sample flags ($N < 30$), and offline fallbacks. |
+| **[tests/test_advice.py](file:///c:/Users/Sobia/Downloads/NYLP%20HACKATHON/tests/test_advice.py)** | Automated unit tests proving hallucinated rainfall numbers are rejected and offline templates operate reliably. |
+| **[tests/test_verifier.py](file:///c:/Users/Sobia/Downloads/NYLP%20HACKATHON/tests/test_verifier.py)** | Automated unit tests proving that $1.0\text{ mm}$ threshold categorization, lead-time filters ($\ge 6\text{h}$), and contingency scoring math are correct. |
 
 ---
 
