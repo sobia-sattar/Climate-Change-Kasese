@@ -1,13 +1,13 @@
-# 🌦️ RainCheck — Weather Verification & Actionable Advice
+# RainCheck — Weather Verification & Actionable Advice
 
 > **Hackathon Project:** Climate-Change-Kasese  
 > **Pilot Cities:** Kampala, Uganda & Pilot Pakistani City (e.g., Lahore)  
 > **Target Personas:** Farmers, Riders (Boda-Boda/Couriers), Market Traders  
-> **Module Owner:** Sobia (Advice, Languages & Web App)
+> **Lead Full-Stack & UI/UX Developer:** Sobia
 
 ---
 
-## 📌 Project Overview
+## Project Overview
 **RainCheck** is an evidence-grounded weather advice web application designed to help vulnerable daily earners (farmers, motorcycle riders, and open-air traders) make informed operational decisions based on verified forecast accuracy rather than blind faith or generic forecasts.
 
 ### Core Philosophy
@@ -19,12 +19,13 @@
 
 ---
 
-## 🏗️ Architecture & Project Structure
+## Architecture & Project Structure
 
 ```text
 NYLP HACKATHON/
 │
-├── app.py                   # Streamlit web app in modern FloodSimple Insurtech UI design
+├── app.py                   # Dual-view web app (FloodSimple Landing Page + Operational Dashboard)
+├── icons.py                 # Pure inline SVG icon system (zero emojis)
 ├── weather_service.py       # Live Country Weather API integration (Open-Meteo WMO / National Models)
 ├── forecast_logger.py       # Automated forecast ingestion, valid/issue time logging & lead-time filtering (>=6h)
 ├── verifier.py              # Scientific Forecast Verification Engine (2x2 contingency matrix, 1.0mm threshold)
@@ -49,7 +50,8 @@ NYLP HACKATHON/
 
 | File | Purpose |
 | :--- | :--- |
-| **[app.py](file:///c:/Users/Sobia/Downloads/NYLP%20HACKATHON/app.py)** | The main web dashboard built in the **FloodSimple Insurtech style**. Deep slate & electric azure accents, KPI stat widgets, Plotly reliability dial, and sector action hubs. |
+| **[app.py](file:///c:/Users/Sobia/Downloads/NYLP%20HACKATHON/app.py)** | Dual-mode web platform: FloodSimple Insurtech public landing page + operational advisory & verification dashboard. |
+| **[icons.py](file:///c:/Users/Sobia/Downloads/NYLP%20HACKATHON/icons.py)** | Professional inline SVG vector icon library (strict zero-emoji standard). |
 | **[weather_service.py](file:///c:/Users/Sobia/Downloads/NYLP%20HACKATHON/weather_service.py)** | Real-time country-level weather from Open-Meteo for Uganda (Kampala) and Pakistan (Lahore, Karachi, Islamabad) with WMO code translation and offline caching. |
 | **[forecast_logger.py](file:///c:/Users/Sobia/Downloads/NYLP%20HACKATHON/forecast_logger.py)** | Archives multi-hourly forecasts with explicit issue times, valid times, and filters forecasts for lead times $\ge 6\text{h}$. |
 | **[verifier.py](file:///c:/Users/Sobia/Downloads/NYLP%20HACKATHON/verifier.py)** | The scientific verification engine computing $2\times 2$ contingency tables (Hits, Misses, False Alarms, Correct Negatives) at the agreed **$1.0\text{ mm}$ rain threshold**, Hit Rate (POD), False Alarm Ratio (FAR), and Mean Absolute Error (MAE). |
@@ -62,7 +64,7 @@ NYLP HACKATHON/
 
 ---
 
-## 🚀 Setup & Execution Guide (Windows)
+## Setup & Execution Guide (Windows)
 
 ### 1. Prerequisites
 Ensure Python 3.9+ and Git are installed:
@@ -84,11 +86,11 @@ pip install -r requirements.txt
 ```
 
 ### 4. Run the Unit Tests
-Verify safety guards and fallbacks:
+Verify safety guards, verifier math, contingency matrices, and fallbacks:
 ```powershell
-python -m pytest tests/test_advice.py
+python -m pytest
 ```
-*Expected: 8 passed tests.*
+*Expected: 15 passed tests.*
 
 ### 5. Launch the Web Application
 ```powershell
@@ -98,7 +100,7 @@ The browser will open automatically at `http://localhost:8501`.
 
 ---
 
-## 🛡️ The Numeric Safety Guard: How it Works
+## The Numeric Safety Guard: How it Works
 
 Large Language Models (LLMs) frequently hallucinate numbers (e.g. inventing *"90% chance of 45mm rain"* when no such forecast exists). In RainCheck:
 
@@ -109,7 +111,7 @@ Large Language Models (LLMs) frequently hallucinate numbers (e.g. inventing *"90
 
 ---
 
-## 🤝 Team Integration Guide
+## Team Integration Guide
 
 - **For the Verification Teammate**: Output your evaluation pipeline into `data/results.json` following the schema below:
   ```json
@@ -132,7 +134,6 @@ Large Language Models (LLMs) frequently hallucinate numbers (e.g. inventing *"90
 
 ---
 
-## ⚖️ Disclaimers & Ethics
+## Disclaimers & Ethics
 - **Not an Official Warning Service**: RainCheck is an academic decision-support prototype. For emergency flood or storm warnings, always consult official national bodies: [Uganda National Meteorological Authority (UNMA)](https://www.unma.go.ug/) or [Pakistan Meteorological Department (PMD)](https://www.pmd.gov.pk/).
 - **Translation Status**: Urdu and Luganda strings are machine translations marked as *pending review by fluent speakers*.
->>>>>>> 23b8ab2 (feat: RainCheck weather verification advice engine, multilingual support, live country API, and webapp)
