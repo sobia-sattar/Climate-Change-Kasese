@@ -14,33 +14,33 @@ import requests
 
 # City coordinates for pilot locations
 CITY_COORDINATES = {
-    "Kampala, Uganda": {"lat": 0.3476, "lon": 32.5825, "country": "Uganda", "flag": "🇺🇬"},
-    "Lahore, Pakistan": {"lat": 31.5204, "lon": 74.3587, "country": "Pakistan", "flag": "🇵🇰"},
-    "Karachi, Pakistan": {"lat": 24.8607, "lon": 67.0011, "country": "Pakistan", "flag": "🇵🇰"},
-    "Islamabad, Pakistan": {"lat": 33.6844, "lon": 73.0479, "country": "Pakistan", "flag": "🇵🇰"}
+    "Kampala, Uganda": {"lat": 0.3476, "lon": 32.5825, "country": "Uganda", "iso": "UG"},
+    "Lahore, Pakistan": {"lat": 31.5204, "lon": 74.3587, "country": "Pakistan", "iso": "PK"},
+    "Karachi, Pakistan": {"lat": 24.8607, "lon": 67.0011, "country": "Pakistan", "iso": "PK"},
+    "Islamabad, Pakistan": {"lat": 33.6844, "lon": 73.0479, "country": "Pakistan", "iso": "PK"}
 }
 
-# WMO Weather interpretation codes (WMO code -> (description, emoji))
+# WMO Weather interpretation codes (WMO code -> (description, icon_key))
 WMO_CODE_MAP = {
-    0: ("Clear Sky", "☀️"),
-    1: ("Mainly Clear", "🌤️"),
-    2: ("Partly Cloudy", "⛅"),
-    3: ("Overcast", "☁️"),
-    45: ("Foggy", "🌫️"),
-    48: ("Depositing Rime Fog", "🌫️"),
-    51: ("Light Drizzle", "🌦️"),
-    53: ("Moderate Drizzle", "🌧️"),
-    55: ("Dense Drizzle", "🌧️"),
-    61: ("Slight Rain", "🌦️"),
-    63: ("Moderate Rain", "🌧️"),
-    65: ("Heavy Rain", "⛈️"),
-    71: ("Slight Snow", "🌨️"),
-    80: ("Slight Rain Showers", "🌦️"),
-    81: ("Moderate Showers", "🌧️"),
-    82: ("Violent Showers", "⛈️"),
-    95: ("Thunderstorm", "⚡"),
-    96: ("Thunderstorm with Slight Hail", "⛈️"),
-    99: ("Thunderstorm with Heavy Hail", "⛈️"),
+    0: ("Clear Sky", "sun"),
+    1: ("Mainly Clear", "cloud-sun"),
+    2: ("Partly Cloudy", "cloud-sun"),
+    3: ("Overcast", "cloud"),
+    45: ("Foggy", "cloud"),
+    48: ("Depositing Rime Fog", "cloud"),
+    51: ("Light Drizzle", "cloud-rain"),
+    53: ("Moderate Drizzle", "cloud-rain"),
+    55: ("Dense Drizzle", "cloud-rain"),
+    61: ("Slight Rain", "cloud-rain"),
+    63: ("Moderate Rain", "cloud-rain"),
+    65: ("Heavy Rain", "cloud-rain"),
+    71: ("Slight Snow", "cloud-rain"),
+    80: ("Slight Rain Showers", "cloud-rain"),
+    81: ("Moderate Showers", "cloud-rain"),
+    82: ("Violent Showers", "cloud-lightning"),
+    95: ("Thunderstorm", "cloud-lightning"),
+    96: ("Thunderstorm with Slight Hail", "cloud-lightning"),
+    99: ("Thunderstorm with Heavy Hail", "cloud-lightning"),
 }
 
 
@@ -75,7 +75,7 @@ def fetch_live_weather(city_name: str) -> Dict[str, Any]:
             data = response.json()
             current = data.get("current", {})
             wmo_code = current.get("weather_code", 0)
-            cond_desc, cond_icon = WMO_CODE_MAP.get(wmo_code, ("Variable Conditions", "🌥️"))
+            cond_desc, cond_icon = WMO_CODE_MAP.get(wmo_code, ("Variable Conditions", "cloud"))
 
             # Next 12-24h rain probability max
             hourly_prob = data.get("hourly", {}).get("precipitation_probability", [])
@@ -84,7 +84,8 @@ def fetch_live_weather(city_name: str) -> Dict[str, Any]:
             return {
                 "is_live": True,
                 "city": city_info["name"],
-                "flag": city_info["flag"],
+                "country": city_info["country"],
+                "iso": city_info["iso"],
                 "temperature_c": round(current.get("temperature_2m", 0.0), 1),
                 "feels_like_c": round(current.get("apparent_temperature", 0.0), 1),
                 "humidity_pct": int(current.get("relative_humidity_2m", 0)),
@@ -103,14 +104,15 @@ def fetch_live_weather(city_name: str) -> Dict[str, Any]:
     return {
         "is_live": False,
         "city": city_info["name"],
-        "flag": city_info["flag"],
+        "country": city_info["country"],
+        "iso": city_info["iso"],
         "temperature_c": 24.0,
         "feels_like_c": 24.0,
         "humidity_pct": 65,
         "precipitation_mm": 0.0,
         "rain_prob_24h": 20,
         "wind_speed_kmh": 5.0,
-        "condition": "Offline Placeholder",
-        "icon": "⛅",
-        "api_source": "Cached Offline Default"
+        "condition": "Offline Benchmark",
+        "icon": "cloud",
+        "api_source": "Cached Baseline"
     }
