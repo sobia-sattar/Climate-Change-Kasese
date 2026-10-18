@@ -30,7 +30,7 @@ from advice import generate_advice
 from weather_service import fetch_live_weather
 from verifier import RAIN_THRESHOLD_MM, MIN_LEAD_HOURS
 from icons import get_svg_icon
-from illustrations import get_role_illustration
+from illustrations import get_floodsimple_hero_illustration, get_role_illustration
 from kasese_weather import fetch_kasese_live, fetch_kasese_historical
 from kasese_ml import load_or_run_pipeline
 
@@ -507,9 +507,9 @@ Select your outdoor profession to load your calibrated 3D action protocol.
             st.session_state["role"] = active_role
 
         with col_hr:
-            # Dedicated 3D vector illustration for the selected role
+            # The signature FloodSimple Umbrella Boat illustration
             st.markdown(
-                get_role_illustration(active_role, live, hit_rate_display),
+                get_floodsimple_hero_illustration(live, hit_rate_display),
                 unsafe_allow_html=True
             )
 
