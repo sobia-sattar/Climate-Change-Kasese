@@ -42,6 +42,7 @@ from illustrations import (
     get_rider_illustration,
     get_trader_illustration,
     get_role_illustration,
+    get_3d_product_cards_html,
 )
 from kasese_weather import fetch_kasese_live, fetch_kasese_historical
 from kasese_ml import load_or_run_pipeline
@@ -645,29 +646,22 @@ Rain Advice
             unsafe_allow_html=True
         )
 
-        # ── Three Sector Hubs Preview ─────────────────────────────────────────
+        # ── Three Sector Hubs Preview — Animated 3D Product Cards ────────────
         who_title = get_ui_text("who_protect_title", selected_lang)
         who_sub = get_ui_text("who_protect_sub", selected_lang)
-        st.markdown(f"<div class='card-section-label' style='margin-top: 32px;'>{who_title}</div><div class='card-title' style='font-size:1.8rem'>{who_sub}</div>", unsafe_allow_html=True)
-        c1, c2, c3 = st.columns(3)
-        for col, r_key, r_icon, r_desc_key, r_bg, r_c in [
-            (c1, "role_farmer", "sprout", "card_farmers_desc", "#F0FDF4", "#10B981"),
-            (c2, "role_rider", "navigation", "card_riders_desc", "#E0F2FE", "#0284C7"),
-            (c3, "role_trader", "store", "card_traders_desc", "#FEF3C7", "#D97706"),
-        ]:
-            with col:
-                st.markdown(
-                    html_block(f"""
-<div class="fs-card" style="padding: 24px;">
-<div style="background:{r_bg}; width:44px; height:44px; border-radius:14px; display:flex; align-items:center; justify-content:center; margin-bottom:12px;">
-{get_svg_icon(r_icon, 22, r_c)}
-</div>
-<div style="font-weight:800; font-size:1.05rem; color:#0B132B; margin-bottom:6px;">{get_ui_text(r_key, selected_lang)}</div>
-<div style="color:#64748B; font-size:0.88rem; line-height:1.6;">{get_ui_text(r_desc_key, selected_lang)}</div>
-</div>
-"""),
-                    unsafe_allow_html=True
-                )
+        st.markdown(
+            f"<div class='card-section-label' style='margin-top: 32px;'>{who_title}</div>"
+            f"<div class='card-title' style='font-size:1.8rem'>{who_sub}</div>",
+            unsafe_allow_html=True
+        )
+        st.markdown(
+            get_3d_product_cards_html(
+                lang=selected_lang,
+                active_role=active_role,
+                hit_rate_pct=hit_rate_display,
+            ),
+            unsafe_allow_html=True
+        )
 
         st.markdown('</div>', unsafe_allow_html=True)
 

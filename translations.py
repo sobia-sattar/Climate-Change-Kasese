@@ -220,6 +220,26 @@ UI_STRINGS: Dict[str, Dict[str, str]] = {
         "ur": "کھلی منڈی میں کاروبار منافع بخش رکھیں، خراب ہونے والے مال کی حفاظت کریں اور بر وقت ترپال ڈالیں۔",
         "lg": "Kuumira amatandalo g'akatale ku magoba. Kuuma ebiyinza okwonooneka era bikka kaveera mangu."
     },
+    "card_btn_text": {
+        "en": "View Protocol",
+        "ur": "پروٹوکول دیکھیں",
+        "lg": "Laba Enteekateeka"
+    },
+    "card_farmer_metric": {
+        "en": "Verified Hit Rate",
+        "ur": "ماڈل درستگی کی شرح",
+        "lg": "Obutuufu bwa Model"
+    },
+    "card_rider_metric": {
+        "en": "Lead Horizon",
+        "ur": "محفوظ پیشگی وقت",
+        "lg": "Ekiseera Eky'okwetegeka"
+    },
+    "card_trader_metric": {
+        "en": "Dry Transit Window",
+        "ur": "خشک مارکیٹ ونڈو",
+        "lg": "Akaseera Akataliimu Nkuba"
+    },
     "simulated_warning": {
         "en": "SIMULATED DEMONSTRATION DATA: The verification metrics below are generated for testing and demonstration purposes only.",
         "ur": "فرضی / آزمائشی ڈیٹا: ذیل میں دیے گئے تصدیقی اعداد و شمار صرف جانچ اور مظاہرے کے لیے ہیں۔",
