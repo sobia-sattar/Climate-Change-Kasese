@@ -25,12 +25,24 @@ import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
 
-from translations import get_ui_text, LANGUAGE_STATUS
+from translations import (
+    get_ui_text,
+    get_language_status,
+    LANGUAGE_STATUS,
+    get_role_display_name,
+    get_role_question_text,
+)
 from advice import generate_advice
 from weather_service import fetch_live_weather
 from verifier import RAIN_THRESHOLD_MM, MIN_LEAD_HOURS
 from icons import get_svg_icon
-from illustrations import get_floodsimple_hero_illustration, get_role_illustration
+from illustrations import (
+    get_floodsimple_hero_illustration,
+    get_farmer_illustration,
+    get_rider_illustration,
+    get_trader_illustration,
+    get_role_illustration,
+)
 from kasese_weather import fetch_kasese_live, fetch_kasese_historical
 from kasese_ml import load_or_run_pipeline
 
@@ -453,10 +465,10 @@ def main():
 
     # 4. Main Navigation Tabs
     tab_home, tab_kasese, tab_advice, tab_feedback = st.tabs([
-        "Operational Advisor",
-        "Kasese ML & Historical Verification",
-        "AI Safety Guardrail",
-        "Community Reports",
+        get_ui_text("tab_advisor", selected_lang),
+        get_ui_text("tab_kasese", selected_lang),
+        get_ui_text("tab_safety", selected_lang),
+        get_ui_text("tab_feedback", selected_lang),
     ])
 
     # ═════════════════════════════════════════════════════════════════════════
@@ -465,16 +477,55 @@ def main():
     with tab_home:
         st.markdown('<div class="page-wrap">', unsafe_allow_html=True)
 
+        lang_meta = get_language_status(selected_lang)
+        if not lang_meta.get("is_reviewed", True):
+            st.markdown(
+                html_block(f"""
+<div style="background: #FEF3C7; border: 1px solid #FDE68A; border-left: 4px solid #D97706; padding: 10px 16px; border-radius: 12px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+<div style="flex-shrink: 0;">{get_svg_icon('alert-triangle', 16, '#D97706')}</div>
+<div style="font-size: 0.86rem; color: #92400E; font-weight: 600;">
+<b>{lang_meta.get('name')} ({lang_meta.get('native')}) &bull; {lang_meta.get('status')}:</b> {lang_meta.get('note')}
+</div>
+</div>
+"""),
+                unsafe_allow_html=True
+            )
+
         col_hl, col_hr = st.columns([1.1, 0.9], gap="large")
 
         with col_hl:
-            st.markdown(
-                html_block(f"""
-<div>
-<div class="hero-amber-tag">
-{get_svg_icon("sparkles", 14, "#D97706")}
-MEET RAINCHECK &bull; KASESE
-</div>
+            hero_tag = get_ui_text("hero_tag", selected_lang)
+            hero_sub = get_ui_text("hero_sub", selected_lang)
+            choose_role_txt = get_ui_text("choose_role_label", selected_lang)
+
+            if selected_lang == "ur":
+                headline_inner = """
+<h1 class="hero-headline" style="font-size: 2.2rem; line-height: 1.35;">
+قابلِ اعتماد بارش کے مشورے<br>
+<span class="loop-wrap">
+<span>سب سے آسان</span>
+<svg class="loop-svg" viewBox="0 0 200 60">
+<path d="M 8,30 C 8,12 55,4 105,4 C 160,4 192,13 192,30 C 192,47 150,56 95,56 C 38,56 8,47 8,30 Z"
+fill="none" stroke="#38BDF8" stroke-width="3.5" stroke-linecap="round"/>
+</svg>
+</span> طریقے سے
+</h1>
+"""
+            elif selected_lang == "lg":
+                headline_inner = """
+<h1 class="hero-headline" style="font-size: 2.2rem; line-height: 1.35;">
+Engeri Ennyangu Ey'okufunamu<br>
+<span class="loop-wrap">
+<span>Amagezi g'Enkuba</span>
+<svg class="loop-svg" viewBox="0 0 200 60">
+<path d="M 8,30 C 8,12 55,4 105,4 C 160,4 192,13 192,30 C 192,47 150,56 95,56 C 38,56 8,47 8,30 Z"
+fill="none" stroke="#38BDF8" stroke-width="3.5" stroke-linecap="round"/>
+</svg>
+</span> Ag'amazima
+</h1>
+"""
+            else:
+                headline_inner = """
 <h1 class="hero-headline">
 The Easiest Way<br>
 To Get
@@ -487,9 +538,17 @@ fill="none" stroke="#38BDF8" stroke-width="3.5" stroke-linecap="round"/>
 </span><br>
 Rain Advice
 </h1>
+"""
+            st.markdown(
+                html_block(f"""
+<div>
+<div class="hero-amber-tag">
+{get_svg_icon("sparkles", 14, "#D97706")}
+{hero_tag}
+</div>
+{headline_inner}
 <p class="hero-sub">
-Real historical Kasese data. Random Forest ML. Zero guessing.
-Select your outdoor profession to load your calibrated 3D action protocol.
+{hero_sub}
 </p>
 </div>
 """),
@@ -497,7 +556,7 @@ Select your outdoor profession to load your calibrated 3D action protocol.
             )
 
             # Role Switcher
-            st.markdown("<div style='font-size:0.85rem;font-weight:800;color:#64748B;text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;'>Choose View / Outdoor Role:</div>", unsafe_allow_html=True)
+            st.markdown(f"<div style='font-size:0.85rem;font-weight:800;color:#64748B;text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;'>{choose_role_txt}</div>", unsafe_allow_html=True)
             role_options = ["Overview", "Farmer", "Rider", "Trader"]
             current_role = st.session_state.get("role", "Overview")
             if current_role not in role_options:
@@ -505,6 +564,7 @@ Select your outdoor profession to load your calibrated 3D action protocol.
             active_role = st.radio(
                 "Select Role:",
                 role_options,
+                format_func=lambda r: get_role_display_name(r, selected_lang),
                 horizontal=True,
                 index=role_options.index(current_role),
                 label_visibility="collapsed"
@@ -529,19 +589,16 @@ Select your outdoor profession to load your calibrated 3D action protocol.
             adv_record = next((r for r in ml_results if r.get("lead_h") == 6), ml_results[0])
 
         if active_role == "Overview":
-            adv_title = "Overview &bull; Multi-Sector Weather Risk Protocol"
-            adv_question = "What does today's weather mean across outdoor sectors in Kasese?"
+            adv_title = get_ui_text("overview_title", selected_lang)
+            adv_question = get_ui_text("overview_question", selected_lang)
             adv_icon = "umbrella"
-            adv_text = (
-                "Empirical Kasese Verification Summary: 71% verified model hit rate at 6-hour lead horizon. "
-                "Farmers: Favorable window for agrochemical treatment and crop maintenance. "
-                "Riders: Clear highway routes, carry emergency waterproof gear for afternoon showers. "
-                "Traders: Stable conditions for open-air display, deploy elevated tarpaulins if clouds thicken."
-            )
+            adv_text = get_ui_text("overview_advice", selected_lang)
             box_cls = "action-box"
         else:
-            adv_title = f"{active_role} &bull; Live Operational Protocol"
-            adv_question = ROLE_QUESTIONS.get(active_role, "Operational Protocol")
+            role_name_translated = get_role_display_name(active_role, selected_lang)
+            proto_suf = get_ui_text("protocol_suffix", selected_lang)
+            adv_title = f"{role_name_translated} &bull; {proto_suf}"
+            adv_question = get_role_question_text(active_role, selected_lang)
             adv_icon = ROLE_ICONS.get(active_role, "sprout")
             adv_payload = generate_advice(
                 role=active_role,
@@ -553,6 +610,8 @@ Select your outdoor profession to load your calibrated 3D action protocol.
             adv_text = adv_payload.get('advice', '—')
             is_warn = adv_payload.get("condition") == "high_false_alarms"
             box_cls = "action-box warn" if is_warn else "action-box"
+
+        grounded_label = get_ui_text("grounded_records", selected_lang)
 
         st.markdown(
             html_block(f"""
@@ -578,7 +637,7 @@ Select your outdoor profession to load your calibrated 3D action protocol.
 <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: #64748B; flex-wrap: wrap; gap: 12px; margin-top: 14px;">
 <div><b>Calibrated Station:</b> {live.get('city', selected_city)} &bull; <b>Model:</b> Random Forest on Open-Meteo Historical</div>
 <div style="color: #10B981; font-weight: 800; display: flex; align-items: center; gap: 6px;">
-{get_svg_icon('check-circle', 16, '#10B981')} Grounded in Empirical Records (Zero Invented Numbers)
+{get_svg_icon('check-circle', 16, '#10B981')} {grounded_label}
 </div>
 </div>
 </div>
@@ -587,12 +646,14 @@ Select your outdoor profession to load your calibrated 3D action protocol.
         )
 
         # ── Three Sector Hubs Preview ─────────────────────────────────────────
-        st.markdown("<div class='card-section-label' style='margin-top: 32px;'>Who We Protect</div><div class='card-title' style='font-size:1.8rem'>Built for the people who live and work outdoors in Kasese.</div>", unsafe_allow_html=True)
+        who_title = get_ui_text("who_protect_title", selected_lang)
+        who_sub = get_ui_text("who_protect_sub", selected_lang)
+        st.markdown(f"<div class='card-section-label' style='margin-top: 32px;'>{who_title}</div><div class='card-title' style='font-size:1.8rem'>{who_sub}</div>", unsafe_allow_html=True)
         c1, c2, c3 = st.columns(3)
-        for col, r_name, r_icon, r_desc, r_bg, r_c in [
-            (c1, "Farmers", "sprout", "Protect harvests, time irrigation, and avoid agrochemical runoff by knowing verified rainfall timing.", "#F0FDF4", "#10B981"),
-            (c2, "Riders & Couriers", "navigation", "Stay safe on unpaved highland roads, avoid mud hazards, and pack gear only when rain is confirmed.", "#E0F2FE", "#0284C7"),
-            (c3, "Market Traders", "store", "Keep open-air stalls running profitably. Guard perishable stocks and deploy tarpaulins in advance.", "#FEF3C7", "#D97706"),
+        for col, r_key, r_icon, r_desc_key, r_bg, r_c in [
+            (c1, "role_farmer", "sprout", "card_farmers_desc", "#F0FDF4", "#10B981"),
+            (c2, "role_rider", "navigation", "card_riders_desc", "#E0F2FE", "#0284C7"),
+            (c3, "role_trader", "store", "card_traders_desc", "#FEF3C7", "#D97706"),
         ]:
             with col:
                 st.markdown(
@@ -601,8 +662,8 @@ Select your outdoor profession to load your calibrated 3D action protocol.
 <div style="background:{r_bg}; width:44px; height:44px; border-radius:14px; display:flex; align-items:center; justify-content:center; margin-bottom:12px;">
 {get_svg_icon(r_icon, 22, r_c)}
 </div>
-<div style="font-weight:800; font-size:1.05rem; color:#0B132B; margin-bottom:6px;">{r_name}</div>
-<div style="color:#64748B; font-size:0.88rem; line-height:1.6;">{r_desc}</div>
+<div style="font-weight:800; font-size:1.05rem; color:#0B132B; margin-bottom:6px;">{get_ui_text(r_key, selected_lang)}</div>
+<div style="color:#64748B; font-size:0.88rem; line-height:1.6;">{get_ui_text(r_desc_key, selected_lang)}</div>
 </div>
 """),
                     unsafe_allow_html=True
@@ -839,13 +900,25 @@ it is instantly rejected and reverted to the deterministic, human-verified templ
     with tab_feedback:
         st.markdown('<div class="page-wrap">', unsafe_allow_html=True)
 
+        fb_title = get_ui_text("feedback_title", selected_lang)
+        fb_intro = get_ui_text("feedback_intro", selected_lang)
+        fb_obs_label = get_ui_text("feedback_observation", selected_lang)
+        fb_rain = get_ui_text("feedback_rain", selected_lang)
+        fb_no_rain = get_ui_text("feedback_no_rain", selected_lang)
+        fb_unsure = get_ui_text("feedback_unsure", selected_lang)
+        fb_area_label = get_ui_text("feedback_area", selected_lang)
+        fb_time_label = get_ui_text("feedback_time", selected_lang)
+        fb_consent_label = get_ui_text("feedback_consent", selected_lang)
+        fb_submit_label = get_ui_text("feedback_submit", selected_lang)
+        fb_success_label = get_ui_text("feedback_success", selected_lang)
+
         st.markdown(
-            html_block("""
+            html_block(f"""
 <div class="fs-card">
 <div class="card-section-label">Community Ground-Truth Calibration</div>
-<div class="card-title">Did It Rain In Your Locality Today?</div>
+<div class="card-title">{fb_title}</div>
 <p style="color: #64748B; font-size: 0.95rem;">
-Help calibrate micro-climate verification records. Crowd contributions are isolated and <b>never</b> alter official scientific metrics.
+{fb_intro}
 </p>
 </div>
 """),
@@ -855,17 +928,18 @@ Help calibrate micro-climate verification records. Crowd contributions are isola
         with st.form("community_report_form", clear_on_submit=True):
             col_f1, col_f2 = st.columns(2)
             with col_f1:
-                obs = st.radio("Observed Rainfall:", ["Rain", "No Rain", "Unsure / Trace Drizzle"], horizontal=True)
-                area = st.text_input("Neighborhood / Parish:", placeholder="e.g. Kasese Town, Bulembia, Nakasero")
+                obs_choices = [fb_rain, fb_no_rain, fb_unsure]
+                obs = st.radio(fb_obs_label, obs_choices, horizontal=True)
+                area = st.text_input(fb_area_label, placeholder="e.g. Kasese Town, Bulembia, Nakasero")
 
             with col_f2:
-                time_w = st.selectbox("Observation Time Window:", [
+                time_w = st.selectbox(fb_time_label, [
                     "Morning (06:00 - 12:00)", "Afternoon (12:00 - 18:00)",
                     "Evening (18:00 - 24:00)", "Overnight (00:00 - 06:00)"
                 ])
-                consent = st.checkbox("I consent to sharing this observation for non-commercial climate research.", value=True)
+                consent = st.checkbox(fb_consent_label, value=True)
 
-            sub_btn = st.form_submit_button("Submit Community Observation", use_container_width=True)
+            sub_btn = st.form_submit_button(fb_submit_label, use_container_width=True)
             if sub_btn:
                 if not area.strip():
                     st.error("Please specify your local area or neighborhood.")
@@ -879,7 +953,7 @@ Help calibrate micro-climate verification records. Crowd contributions are isola
                         "consent_granted": consent
                     }
                     if save_feedback(new_rec):
-                        st.success("Observation submitted successfully! Thank you for contributing.")
+                        st.success(fb_success_label)
 
         with st.expander("Recent Community Ground-Truth Feed (Read-Only)"):
             if os.path.exists(FEEDBACK_FILE_PATH):

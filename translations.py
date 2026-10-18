@@ -85,20 +85,140 @@ UI_STRINGS: Dict[str, Dict[str, str]] = {
         "ur": "اپنا کردار منتخب کریں",
         "lg": "Londa emirimu gyo"
     },
+    "choose_role_label": {
+        "en": "Choose View / Outdoor Role:",
+        "ur": "اپنا پیشہ منتخب کریں:",
+        "lg": "Londa Omulimu gwo ogw'ebweru:"
+    },
+    "role_overview": {
+        "en": "Overview",
+        "ur": "عمومی جائزہ (Overview)",
+        "lg": "Okutwaliza Awamu (Overview)"
+    },
     "role_farmer": {
         "en": "Farmer",
         "ur": "کسان (Farmer)",
         "lg": "Omulimi (Farmer)"
     },
     "role_rider": {
-        "en": "Rider (e.g. Boda-Boda / Courier)",
-        "ur": "رائیڈر / موٹر سائیکل سوار (Rider)",
-        "lg": "Owa Boda-boda / Omugoba w'eggaali (Rider)"
+        "en": "Rider",
+        "ur": "رائیڈر (Rider)",
+        "lg": "Owa Boda-boda (Rider)"
     },
     "role_trader": {
-        "en": "Trader / Market Vendor",
-        "ur": "تاجر / دکاندار (Trader)",
-        "lg": "Omusuubuzi / Omutunzi mu katale (Trader)"
+        "en": "Trader",
+        "ur": "تاجر (Trader)",
+        "lg": "Omusuubuzi (Trader)"
+    },
+    "tab_advisor": {
+        "en": "Operational Advisor",
+        "ur": "عملی مشیر (Operational Advisor)",
+        "lg": "Amagezi Ag'omugaso (Advisor)"
+    },
+    "tab_kasese": {
+        "en": "Kasese ML & Historical Verification",
+        "ur": "کاسیسے ایم ایل و تصدیق (ML & Verification)",
+        "lg": "Okukakasa Kasese ML & Ebyafaayo"
+    },
+    "tab_safety": {
+        "en": "AI Safety Guardrail",
+        "ur": "حفاظتی چیک (AI Guardrail)",
+        "lg": "Obukuumi bwa AI (Safety Guardrail)"
+    },
+    "tab_feedback": {
+        "en": "Community Reports",
+        "ur": "عوامی رپورٹ (Community Reports)",
+        "lg": "Okuddamu kw'Abantu (Reports)"
+    },
+    "hero_tag": {
+        "en": "MEET RAINCHECK • KASESE",
+        "ur": "رین چیک • کاسیسے",
+        "lg": "SANGANA RAINCHECK • KASESE"
+    },
+    "hero_title_line1": {
+        "en": "The Easiest Way",
+        "ur": "سب سے آسان طریقہ",
+        "lg": "Engeri Ennyangu"
+    },
+    "hero_title_line2": {
+        "en": "To Get Reliable",
+        "ur": "قابلِ اعتماد",
+        "lg": "Ey'okufunamu"
+    },
+    "hero_title_line3": {
+        "en": "Rain Advice",
+        "ur": "موسمی مشورے",
+        "lg": "Amagezi g'Enkuba"
+    },
+    "hero_sub": {
+        "en": "Real historical Kasese data. Random Forest ML. Zero guessing. Select your outdoor profession to load your calibrated 3D action protocol.",
+        "ur": "کاسیسے کا حقیقی تاریخی ڈیٹا۔ رینڈم فاریسٹ مشین لرننگ۔ بغیر کسی اندازے کے۔ اپنے پیشے کا انتخاب کریں اور عملی مشورے حاصل کریں۔",
+        "lg": "Ebiwandiiko ebituufu eby'e Kasese. Random Forest ML. Tewali kuteebereza. Londa omulimu gwo ofune amagezi amakakafu."
+    },
+    "overview_title": {
+        "en": "Overview &bull; Multi-Sector Weather Risk Protocol",
+        "ur": "عمومی جائزہ &bull; تمام شعبوں کے لیے موسمی خطرات کا پروٹوکول",
+        "lg": "Okutwaliza Awamu &bull; Enteekateeka y'Obudde mu Mirimu Gyonna"
+    },
+    "overview_question": {
+        "en": "What does today's weather mean across outdoor sectors in Kasese?",
+        "ur": "آج کا موسم کاسیسے میں بیرونی شعبوں کے لیے کیا معنی رکھتا ہے؟",
+        "lg": "Embeera y'obudde ya leero etegeeza ki eri abantu abakolera ebweru mu Kasese?"
+    },
+    "overview_advice": {
+        "en": "Empirical Kasese Verification Summary: 71% verified model hit rate at 6-hour lead horizon. Farmers: Favorable window for agrochemical treatment and crop maintenance. Riders: Clear highway routes, carry emergency waterproof gear for afternoon showers. Traders: Stable conditions for open-air display, deploy elevated tarpaulins if clouds thicken.",
+        "ur": "کاسیسے کی تصدیقی رپورٹ: 6 گھنٹے کے افق پر ماڈل کی 71 فیصد درستگی تصدیق شدہ ہے۔ کسان: فصلوں کی دیکھ بھال اور زرعی ادویات کے لیے سازگار وقت۔ رائیڈرز: ہائی وے روٹس صاف ہیں، دوپہر کی بارش کے لیے رین کوٹ ساتھ رکھیں۔ تاجر: کھلی مارکیٹ کے لیے مستحکم موسم، بادل گہرے ہونے پر ترپال تیار رکھیں۔",
+        "lg": "Okubalirira kw'e Kasese: Obutuufu bw'enkuba buli ku 71% ku ssaawa 6 ezijja. Abalimi: Akaseera kalungi okufuyira n'okulabirira ebirime. Aba Boda-boda: Enguudo nnungi, situla raincoat y'enkuba y'olweggulo. Abasuubuzi: Obudde bulungi mu katale, tegeka kaveera singa ebire biba bingi."
+    },
+    "question_farmer": {
+        "en": "Should I plant, spray agrochemicals, or dry crops today?",
+        "ur": "کیا مجھے آج بیج بونا، کیڑے مار دوا چھڑکنا یا فصل سکھانی چاہیے؟",
+        "lg": "Nsimbe, nfuyire eddagala ly'ebirime, oba nyanike leero?"
+    },
+    "question_rider": {
+        "en": "Are the roads safe for delivery trips today?",
+        "ur": "کیا آج سڑکیں ڈیلیوری یا سفر کے لیے محفوظ ہیں؟",
+        "lg": "Enguudo nnumgi okutambulirako leero?"
+    },
+    "question_trader": {
+        "en": "Should I open outdoor market stalls today?",
+        "ur": "کیا مجھے آج کھلی مارکیٹ کا اسٹال لگانا چاہیے؟",
+        "lg": "Nzigulewo amatandalo g'akatale ebweru leero?"
+    },
+    "protocol_suffix": {
+        "en": "Live Operational Protocol",
+        "ur": "براہِ راست عملی پروٹوکول",
+        "lg": "Enteekateeka y'Okukola ey'Amangu"
+    },
+    "grounded_records": {
+        "en": "Grounded in Empirical Records (Zero Invented Numbers)",
+        "ur": "تصدیق شدہ اعداد و شمار پر مبنی (بغیر خود ساختہ اعداد کے)",
+        "lg": "Bisinzira ku biwandiiko ebituufu (Tewali namba zikozeseddwa bukozesebwa)"
+    },
+    "who_protect_title": {
+        "en": "Who We Protect",
+        "ur": "ہم کن کی حفاظت کرتے ہیں",
+        "lg": "B'atukuuma"
+    },
+    "who_protect_sub": {
+        "en": "Built for the people who live and work outdoors in Kasese.",
+        "ur": "کاسیسے کے ان محنتی لوگوں کے لیے جو کھلے آسمان تلے کام کرتے ہیں۔",
+        "lg": "Kyakolebwa olw'abantu abakolera ebweru mu Kasese."
+    },
+    "card_farmers_desc": {
+        "en": "Protect harvests, time irrigation, and avoid agrochemical runoff by knowing verified rainfall timing.",
+        "ur": "بارش کے تصدیق شدہ وقت سے باخبر رہ کر فصلوں کی حفاظت کریں اور کیمیائی کھادوں کا ضیاع روکیں۔",
+        "lg": "Kuuma emmere gye wakungudde, tereeza amazzi, era weewale eddagala okukuluggusibwa enkuba."
+    },
+    "card_riders_desc": {
+        "en": "Stay safe on unpaved highland roads, avoid mud hazards, and pack gear only when rain is confirmed.",
+        "ur": "کچی پہاڑی سڑکوں پر پھسلن سے بچیں، سفر محفوظ بنائیں اور رین کوٹ تیار رکھیں۔",
+        "lg": "Beera mirembe ku nguudo ez'ensozi ez'ebisooto, era weetegereze okusiba kw'eggaali oba piki yo."
+    },
+    "card_traders_desc": {
+        "en": "Keep open-air stalls running profitably. Guard perishable stocks and deploy tarpaulins in advance.",
+        "ur": "کھلی منڈی میں کاروبار منافع بخش رکھیں، خراب ہونے والے مال کی حفاظت کریں اور بر وقت ترپال ڈالیں۔",
+        "lg": "Kuumira amatandalo g'akatale ku magoba. Kuuma ebiyinza okwonooneka era bikka kaveera mangu."
     },
     "simulated_warning": {
         "en": "SIMULATED DEMONSTRATION DATA: The verification metrics below are generated for testing and demonstration purposes only.",
@@ -291,3 +411,28 @@ def get_fallback_advice(role: str, condition: str, lang: str = "en") -> str:
     cond_text_dict = role_conditions.get(condition, role_conditions.get("no_evidence", {}))
 
     return cond_text_dict.get(target_lang, cond_text_dict.get("en", "Evidence-grounded advice is unavailable."))
+
+
+def get_role_display_name(role: str, lang: str = "en") -> str:
+    """Return localized display label for role radio buttons."""
+    key_map = {
+        "Overview": "role_overview",
+        "Farmer": "role_farmer",
+        "Rider": "role_rider",
+        "Trader": "role_trader",
+    }
+    key = key_map.get(role, "role_overview")
+    return get_ui_text(key, lang)
+
+
+def get_role_question_text(role: str, lang: str = "en") -> str:
+    """Return localized headline question for each role protocol."""
+    key_map = {
+        "Overview": "overview_question",
+        "Farmer": "question_farmer",
+        "Rider": "question_rider",
+        "Trader": "question_trader",
+    }
+    key = key_map.get(role, "overview_question")
+    return get_ui_text(key, lang)
+
