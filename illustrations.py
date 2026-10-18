@@ -425,12 +425,12 @@ def get_3d_product_cards_html(
     hit_rate_pct: int = 71
 ) -> str:
     """
-    Renders 3 animated 3D product-style cards modeled exactly after the reference design:
-    - Warm peach ambient surface
-    - Pop-out 3D floating footwear/gear protruding from the top border of each card
-    - Clean centered card with Title, 3-line description, Big prominent metric, and vivid orange pill button
-    - Bottom 'PRODUCT CARD UI DESIGN' capsule badge matching the reference visual
-    - Smooth keyframe floating animations and hover lift effects
+    Renders 3 animated role cards for RainCheck:
+    - Farmer: crop/leaf SVG, verified hit rate metric
+    - Rider: motorcycle SVG, 6h lead horizon metric
+    - Trader: market stall SVG, dry window metric
+    Card style: floating pop-out icon, big metric, orange pill button, hover lift.
+    No shoes. No product badge. Pure RainCheck weather app content.
     """
     farmer_name = get_ui_text("role_farmer", lang)
     farmer_desc = get_ui_text("card_farmers_desc", lang)
@@ -447,278 +447,235 @@ def get_3d_product_cards_html(
     btn_text = get_ui_text("card_btn_text", lang)
 
     farmer_active = " active" if active_role == "Farmer" else ""
-    rider_active = " active" if active_role == "Rider" else ""
+    rider_active  = " active" if active_role == "Rider"  else ""
     trader_active = " active" if active_role == "Trader" else ""
 
+    # ── Farmer icon: wheat sheaf / crop leaf SVG ──────────────────────────────
+    farmer_svg = """<svg viewBox="0 0 120 120" width="96" height="96" style="overflow:visible;">
+<defs>
+<filter id="rcFShd" x="-30%" y="-30%" width="170%" height="170%">
+<feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#10B981" flood-opacity="0.28"/>
+</filter>
+<linearGradient id="rcFGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" stop-color="#DCFCE7"/>
+<stop offset="100%" stop-color="#BBF7D0"/>
+</linearGradient>
+</defs>
+<g filter="url(#rcFShd)">
+<circle cx="60" cy="60" r="44" fill="url(#rcFGrad)"/>
+<path d="M 60 82 L 60 38" stroke="#16A34A" stroke-width="3.5" stroke-linecap="round"/>
+<path d="M 60 52 Q 44 42 40 28 Q 52 30 60 44 Q 68 30 80 28 Q 76 42 60 52 Z" fill="#22C55E"/>
+<path d="M 60 64 Q 50 56 44 46 Q 54 46 60 58 Q 66 46 76 46 Q 70 56 60 64 Z" fill="#16A34A" opacity="0.7"/>
+<ellipse cx="60" cy="84" rx="10" ry="4" fill="#15803D" opacity="0.3"/>
+</g>
+</svg>"""
+
+    # ── Rider icon: motorcycle SVG ────────────────────────────────────────────
+    rider_svg = """<svg viewBox="0 0 120 120" width="96" height="96" style="overflow:visible;">
+<defs>
+<filter id="rcRShd" x="-30%" y="-30%" width="170%" height="170%">
+<feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#0284C7" flood-opacity="0.28"/>
+</filter>
+<linearGradient id="rcRGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" stop-color="#DBEAFE"/>
+<stop offset="100%" stop-color="#BAE6FD"/>
+</linearGradient>
+</defs>
+<g filter="url(#rcRShd)">
+<circle cx="60" cy="60" r="44" fill="url(#rcRGrad)"/>
+<circle cx="36" cy="74" r="11" fill="none" stroke="#0369A1" stroke-width="4"/>
+<circle cx="84" cy="74" r="11" fill="none" stroke="#0369A1" stroke-width="4"/>
+<circle cx="36" cy="74" r="4" fill="#0284C7"/>
+<circle cx="84" cy="74" r="4" fill="#0284C7"/>
+<path d="M 36 74 L 50 58 L 62 58 L 70 48 L 84 52 L 84 74" fill="none" stroke="#0284C7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 62 58 L 65 50 L 74 50" fill="none" stroke="#0369A1" stroke-width="3" stroke-linecap="round"/>
+<ellipse cx="60" cy="85" rx="12" ry="4" fill="#0369A1" opacity="0.18"/>
+</g>
+</svg>"""
+
+    # ── Trader icon: market stall / canopy SVG ────────────────────────────────
+    trader_svg = """<svg viewBox="0 0 120 120" width="96" height="96" style="overflow:visible;">
+<defs>
+<filter id="rcTShd" x="-30%" y="-30%" width="170%" height="170%">
+<feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#D97706" flood-opacity="0.28"/>
+</filter>
+<linearGradient id="rcTGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" stop-color="#FEF3C7"/>
+<stop offset="100%" stop-color="#FDE68A"/>
+</linearGradient>
+<linearGradient id="rcCanopy" x1="0%" y1="0%" x2="100%" y2="0%">
+<stop offset="0%" stop-color="#0284C7"/>
+<stop offset="50%" stop-color="#0369A1"/>
+<stop offset="100%" stop-color="#0284C7"/>
+</linearGradient>
+</defs>
+<g filter="url(#rcTShd)">
+<circle cx="60" cy="60" r="44" fill="url(#rcTGrad)"/>
+<path d="M 28 58 L 92 58 L 86 72 L 34 72 Z" fill="url(#rcCanopy)"/>
+<path d="M 28 58 L 40 58 L 40 72 L 34 72 Z" fill="#FFFFFF" opacity="0.35"/>
+<path d="M 56 58 L 64 58 L 64 72 L 56 72 Z" fill="#FFFFFF" opacity="0.35"/>
+<line x1="38" y1="72" x2="38" y2="88" stroke="#92400E" stroke-width="4" stroke-linecap="round"/>
+<line x1="82" y1="72" x2="82" y2="88" stroke="#92400E" stroke-width="4" stroke-linecap="round"/>
+<rect x="40" y="78" width="40" height="10" rx="3" fill="#B45309"/>
+<rect x="43" y="80" width="10" height="6" rx="2" fill="#FCD34D"/>
+<rect x="56" y="80" width="10" height="6" rx="2" fill="#FCD34D"/>
+<ellipse cx="60" cy="90" rx="14" ry="4" fill="#92400E" opacity="0.18"/>
+</g>
+</svg>"""
+
     html = f"""<style>
-@keyframes popShoeA {{ 0%, 100% {{ transform: translateY(0) rotate(-18deg); }} 50% {{ transform: translateY(-10px) rotate(-15deg); }} }}
-@keyframes popShoeB {{ 0%, 100% {{ transform: translateY(0) rotate(6deg); }} 50% {{ transform: translateY(-8px) rotate(8deg); }} }}
-@keyframes popShoeC {{ 0%, 100% {{ transform: translateY(0) rotate(26deg); }} 50% {{ transform: translateY(-11px) rotate(23deg); }} }}
+@keyframes rcFloatA {{ 0%, 100% {{ transform: translateY(0px); }} 50% {{ transform: translateY(-10px); }} }}
+@keyframes rcFloatB {{ 0%, 100% {{ transform: translateY(0px); }} 50% {{ transform: translateY(-8px); }} }}
+@keyframes rcFloatC {{ 0%, 100% {{ transform: translateY(0px); }} 50% {{ transform: translateY(-12px); }} }}
 
-.prod-cards-container {{
-background: #FED7AA;
-background: linear-gradient(180deg, #FFEDD5 0%, #FED7AA 100%);
-border-radius: 28px;
-padding: 72px 24px 38px;
-margin-top: 36px;
-margin-bottom: 24px;
-position: relative;
-box-shadow: inset 0 2px 6px rgba(255,255,255,0.7), 0 20px 40px -15px rgba(249, 115, 22, 0.18);
-}}
-
-.prod-grid {{
+.rc-cards-wrap {{
 display: grid;
 grid-template-columns: repeat(3, 1fr);
-gap: 24px;
-align-items: stretch;
+gap: 28px;
+margin-top: 32px;
+margin-bottom: 8px;
 }}
 
-@media (max-width: 860px) {{
-.prod-grid {{
-grid-template-columns: 1fr;
-gap: 75px;
-}}
+@media (max-width: 820px) {{
+.rc-cards-wrap {{ grid-template-columns: 1fr; gap: 80px; }}
 }}
 
-.prod-card-item {{
+.rc-role-card {{
 background: #FFFFFF;
-border-radius: 20px;
-padding: 56px 20px 28px;
+border: 1.5px solid #E2E8F0;
+border-radius: 22px;
+padding: 64px 22px 28px;
 text-align: center;
 position: relative;
-box-shadow: 0 16px 36px -10px rgba(15, 23, 42, 0.08), 0 2px 6px rgba(15, 23, 42, 0.04);
-transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+box-shadow: 0 12px 32px -8px rgba(15,23,42,0.07), 0 2px 6px rgba(15,23,42,0.04);
+transition: transform 0.32s cubic-bezier(0.16,1,0.3,1), box-shadow 0.32s cubic-bezier(0.16,1,0.3,1);
 display: flex;
 flex-direction: column;
 justify-content: space-between;
-border: 1px solid rgba(226, 232, 240, 0.8);
 }}
 
-.prod-card-item:hover {{
-transform: translateY(-14px);
-box-shadow: 0 30px 50px -12px rgba(234, 88, 12, 0.35), 0 10px 20px rgba(15, 23, 42, 0.08);
+.rc-role-card:hover {{
+transform: translateY(-16px);
+box-shadow: 0 32px 52px -12px rgba(234,88,12,0.28), 0 8px 18px rgba(15,23,42,0.07);
 }}
 
-.prod-card-item.active {{
+.rc-role-card.active {{
 border: 2px solid #0284C7;
-box-shadow: 0 24px 44px -8px rgba(2, 132, 199, 0.3);
+box-shadow: 0 20px 40px -8px rgba(2,132,199,0.25);
 }}
 
-.prod-pop-element {{
+.rc-icon-float {{
 position: absolute;
-top: -55px;
+top: -48px;
 left: 50%;
 transform: translateX(-50%);
-width: 170px;
-height: 120px;
-pointer-events: none;
+width: 96px;
+height: 96px;
 z-index: 5;
-transition: transform 0.35s ease;
+transition: transform 0.32s ease;
 }}
 
-.prod-card-item:hover .prod-pop-element {{
-transform: translateX(-50%) translateY(-6px) scale(1.06);
+.rc-role-card:hover .rc-icon-float {{
+transform: translateX(-50%) translateY(-6px) scale(1.08);
 }}
 
-.prod-card-name {{
-font-size: 1.28rem;
+.rc-card-name {{
+font-size: 1.22rem;
 font-weight: 800;
-color: #0F172A;
-margin-top: 6px;
-margin-bottom: 12px;
+color: #0B132B;
+margin-bottom: 10px;
 letter-spacing: -0.3px;
 }}
 
-.prod-card-desc {{
-font-size: 0.86rem;
+.rc-card-desc {{
+font-size: 0.84rem;
 color: #64748B;
-line-height: 1.55;
-margin-bottom: 22px;
-min-height: 60px;
-}}
-
-.prod-card-metric {{
-font-size: 2.6rem;
-font-weight: 900;
-color: #1E293B;
-line-height: 1;
-letter-spacing: -0.8px;
+line-height: 1.58;
 margin-bottom: 20px;
+min-height: 58px;
 }}
 
-.prod-card-metric-label {{
-font-size: 0.76rem;
+.rc-card-metric {{
+font-size: 2.8rem;
+font-weight: 900;
+color: #0B132B;
+line-height: 1;
+letter-spacing: -1px;
+margin-bottom: 4px;
+}}
+
+.rc-card-metric-lbl {{
+font-size: 0.72rem;
 font-weight: 700;
 color: #94A3B8;
 text-transform: uppercase;
-letter-spacing: 0.6px;
-margin-top: 5px;
+letter-spacing: 0.7px;
 display: block;
+margin-bottom: 20px;
 }}
 
-.prod-orange-btn {{
+.rc-orange-pill {{
 display: block;
 width: 100%;
-padding: 12px 20px;
+padding: 13px 20px;
 background: linear-gradient(135deg, #F97316 0%, #EA580C 100%);
 color: #FFFFFF !important;
 font-weight: 800;
 font-size: 0.94rem;
 border-radius: 9999px;
-text-decoration: none !important;
-box-shadow: 0 8px 18px -4px rgba(234, 88, 12, 0.42);
-transition: all 0.25s ease;
+box-shadow: 0 8px 20px -4px rgba(234,88,12,0.38);
+transition: all 0.22s ease;
 border: none;
 cursor: pointer;
+text-decoration: none !important;
 }}
 
-.prod-card-item:hover .prod-orange-btn {{
+.rc-role-card:hover .rc-orange-pill {{
 background: linear-gradient(135deg, #FB923C 0%, #C2410C 100%);
-box-shadow: 0 12px 24px -4px rgba(234, 88, 12, 0.6);
+box-shadow: 0 12px 26px -4px rgba(234,88,12,0.55);
 transform: translateY(-2px);
-}}
-
-.prod-bottom-badge {{
-margin: 44px auto 0;
-background: #0B132B;
-color: #FED7AA;
-font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-font-size: 1.22rem;
-font-weight: 900;
-letter-spacing: 2.5px;
-padding: 14px 44px;
-border-radius: 9999px;
-width: fit-content;
-text-align: center;
-box-shadow: 0 14px 30px -6px rgba(11, 19, 43, 0.4);
 }}
 </style>
 
-<div class="prod-cards-container">
-<div class="prod-grid">
+<div class="rc-cards-wrap">
 
-<!-- CARD 1: FARMER (Yellow/White Athletic Runner) -->
-<div class="prod-card-item{farmer_active}">
-<div class="prod-pop-element">
-<svg viewBox="0 0 180 140" width="100%" height="100%" style="overflow:visible;">
-<defs>
-<filter id="pShd1" x="-25%" y="-25%" width="160%" height="160%">
-<feDropShadow dx="0" dy="14" stdDeviation="10" flood-color="#0F172A" flood-opacity="0.25"/>
-</filter>
-<linearGradient id="pSole1" x1="0%" y1="0%" x2="100%" y2="0%">
-<stop offset="0%" stop-color="#FFFFFF"/>
-<stop offset="70%" stop-color="#F8FAFC"/>
-<stop offset="100%" stop-color="#F59E0B"/>
-</linearGradient>
-</defs>
-<g filter="url(#pShd1)" style="animation: popShoeA 4s ease-in-out infinite;">
-<g>
-<path d="M 28 108 Q 60 118 108 110 Q 142 102 152 84 Q 142 78 128 84 Q 90 94 52 90 Q 34 90 28 108 Z" fill="url(#pSole1)" stroke="#CBD5E1" stroke-width="2"/>
-<rect x="118" y="86" width="22" height="12" rx="4" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2.2"/>
-<path d="M 38 95 Q 58 64 82 62 Q 106 60 124 52 Q 136 48 130 78 Q 108 88 72 90 Q 48 92 38 95 Z" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="2"/>
-<path d="M 112 54 Q 124 32 138 34 Q 148 48 134 68 Z" fill="#0F172A"/>
-<path d="M 86 60 Q 106 42 116 44" fill="none" stroke="#F59E0B" stroke-width="4" stroke-linecap="round"/>
-<line x1="74" y1="70" x2="90" y2="60" stroke="#0F172A" stroke-width="3" stroke-linecap="round"/>
-<line x1="82" y1="76" x2="100" y2="66" stroke="#0F172A" stroke-width="3" stroke-linecap="round"/>
-<line x1="90" y1="82" x2="110" y2="72" stroke="#0F172A" stroke-width="3" stroke-linecap="round"/>
-<path d="M 48 88 Q 62 82 72 88" fill="none" stroke="#F59E0B" stroke-width="3" stroke-linecap="round"/>
-</g>
-</g>
-</svg>
+<div class="rc-role-card{farmer_active}">
+<div class="rc-icon-float" style="animation: rcFloatA 4s ease-in-out infinite;">
+{farmer_svg}
 </div>
 <div>
-<div class="prod-card-name">{farmer_name}</div>
-<div class="prod-card-desc">{farmer_desc}</div>
-<div class="prod-card-metric">
-{hit_rate_pct}%
-<span class="prod-card-metric-label">{farmer_metric_lbl}</span>
+<div class="rc-card-name">{farmer_name}</div>
+<div class="rc-card-desc">{farmer_desc}</div>
+<div class="rc-card-metric">{hit_rate_pct}%</div>
+<span class="rc-card-metric-lbl">{farmer_metric_lbl}</span>
 </div>
-</div>
-<div class="prod-orange-btn">{btn_text}</div>
+<div class="rc-orange-pill">{btn_text}</div>
 </div>
 
-<!-- CARD 2: RIDER (Blue Canvas Low-top Sneaker) -->
-<div class="prod-card-item{rider_active}">
-<div class="prod-pop-element">
-<svg viewBox="0 0 180 140" width="100%" height="100%" style="overflow:visible;">
-<defs>
-<filter id="pShd2" x="-25%" y="-25%" width="160%" height="160%">
-<feDropShadow dx="0" dy="14" stdDeviation="10" flood-color="#0284C7" flood-opacity="0.25"/>
-</filter>
-<linearGradient id="pBlueCanvas" x1="0%" y1="0%" x2="100%" y2="50%">
-<stop offset="0%" stop-color="#0284C7"/>
-<stop offset="100%" stop-color="#0369A1"/>
-</linearGradient>
-</defs>
-<g filter="url(#pShd2)" style="animation: popShoeB 4.5s ease-in-out infinite;">
-<g>
-<rect x="20" y="86" width="138" height="16" rx="8" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2"/>
-<line x1="24" y1="94" x2="154" y2="94" stroke="#0F172A" stroke-width="1.5"/>
-<path d="M 136 86 Q 158 86 156 74 Q 146 72 136 78 Z" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
-<path d="M 30 86 Q 26 58 46 54 Q 72 56 100 66 Q 134 72 144 76 L 140 86 Z" fill="url(#pBlueCanvas)"/>
-<path d="M 40 54 Q 58 54 78 60" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
-<circle cx="70" cy="66" r="2.5" fill="#FFFFFF"/>
-<circle cx="86" cy="69" r="2.5" fill="#FFFFFF"/>
-<circle cx="102" cy="72" r="2.5" fill="#FFFFFF"/>
-<line x1="68" y1="64" x2="84" y2="71" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
-<line x1="84" y1="67" x2="100" y2="74" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
-</g>
-</g>
-</svg>
+<div class="rc-role-card{rider_active}">
+<div class="rc-icon-float" style="animation: rcFloatB 4.5s ease-in-out infinite;">
+{rider_svg}
 </div>
 <div>
-<div class="prod-card-name">{rider_name}</div>
-<div class="prod-card-desc">{rider_desc}</div>
-<div class="prod-card-metric">
-&ge; 6h
-<span class="prod-card-metric-label">{rider_metric_lbl}</span>
+<div class="rc-card-name">{rider_name}</div>
+<div class="rc-card-desc">{rider_desc}</div>
+<div class="rc-card-metric">&ge; 6h</div>
+<span class="rc-card-metric-lbl">{rider_metric_lbl}</span>
 </div>
-</div>
-<div class="prod-orange-btn">{btn_text}</div>
+<div class="rc-orange-pill">{btn_text}</div>
 </div>
 
-<!-- CARD 3: TRADER (Black Athletic Runner with White Stripes) -->
-<div class="prod-card-item{trader_active}">
-<div class="prod-pop-element">
-<svg viewBox="0 0 180 140" width="100%" height="100%" style="overflow:visible;">
-<defs>
-<filter id="pShd3" x="-25%" y="-25%" width="160%" height="160%">
-<feDropShadow dx="0" dy="14" stdDeviation="10" flood-color="#0F172A" flood-opacity="0.28"/>
-</filter>
-<linearGradient id="pBlackUpper" x1="0%" y1="0%" x2="100%" y2="50%">
-<stop offset="0%" stop-color="#0F172A"/>
-<stop offset="100%" stop-color="#1E293B"/>
-</linearGradient>
-</defs>
-<g filter="url(#pShd3)" style="animation: popShoeC 4.2s ease-in-out infinite;">
-<g>
-<path d="M 26 102 Q 58 114 106 106 Q 140 98 150 80 Q 140 75 126 80 Q 88 90 50 86 Q 32 86 26 102 Z" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2"/>
-<rect x="34" y="88" width="18" height="10" rx="3" fill="#EF4444"/>
-<path d="M 36 90 Q 56 60 80 58 Q 104 56 122 48 Q 134 44 128 74 Q 106 84 70 86 Q 46 88 36 90 Z" fill="url(#pBlackUpper)"/>
-<path d="M 110 50 Q 122 28 136 30 Q 146 44 132 64 Z" fill="#0F172A"/>
-<line x1="72" y1="84" x2="90" y2="58" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
-<line x1="82" y1="84" x2="100" y2="58" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
-<line x1="92" y1="84" x2="110" y2="58" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
-</g>
-</g>
-</svg>
+<div class="rc-role-card{trader_active}">
+<div class="rc-icon-float" style="animation: rcFloatC 4.2s ease-in-out infinite;">
+{trader_svg}
 </div>
 <div>
-<div class="prod-card-name">{trader_name}</div>
-<div class="prod-card-desc">{trader_desc}</div>
-<div class="prod-card-metric">
-0.0 mm
-<span class="prod-card-metric-label">{trader_metric_lbl}</span>
+<div class="rc-card-name">{trader_name}</div>
+<div class="rc-card-desc">{trader_desc}</div>
+<div class="rc-card-metric">0 mm</div>
+<span class="rc-card-metric-lbl">{trader_metric_lbl}</span>
 </div>
-</div>
-<div class="prod-orange-btn">{btn_text}</div>
-</div>
-
-</div>
-
-<!-- BOTTOM PRODUCT CARD UI DESIGN CAPSULE BADGE -->
-<div class="prod-bottom-badge">
-PRODUCT CARD UI DESIGN
+<div class="rc-orange-pill">{btn_text}</div>
 </div>
 
 </div>"""
