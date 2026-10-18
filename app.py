@@ -242,6 +242,135 @@ color: #FFFFFF !important; border: none !important; border-radius: 9999px !impor
 padding: 10px 26px !important; font-weight: 800 !important; font-size: 0.95rem !important;
 box-shadow: 0 10px 24px -6px rgba(2,132,199,.4) !important;
 }
+
+/* ── Mobile & Tablet Responsiveness ────────────────────────────── */
+@media (max-width: 768px) {
+.block-container {
+padding: 0.6rem 0.8rem 3rem !important;
+}
+.fs-top-nav {
+padding: 10px 14px !important;
+flex-direction: column !important;
+align-items: flex-start !important;
+gap: 8px !important;
+border-radius: 16px !important;
+}
+.fs-brand {
+font-size: 1.25rem !important;
+}
+.pulse-badge {
+font-size: 0.72rem !important;
+padding: 4px 10px !important;
+margin: 0 !important;
+}
+.hero-headline {
+font-size: 1.95rem !important;
+line-height: 1.22 !important;
+letter-spacing: -0.6px !important;
+margin-bottom: 12px !important;
+}
+.hero-sub {
+font-size: 0.94rem !important;
+line-height: 1.55 !important;
+margin-bottom: 16px !important;
+}
+div[data-baseweb="tab-list"] {
+padding: 4px !important;
+gap: 4px !important;
+overflow-x: auto !important;
+flex-wrap: nowrap !important;
+-webkit-overflow-scrolling: touch !important;
+}
+button[data-baseweb="tab"] {
+padding: 8px 12px !important;
+font-size: 0.78rem !important;
+white-space: nowrap !important;
+}
+.fs-card {
+padding: 20px 16px !important;
+border-radius: 18px !important;
+margin-bottom: 16px !important;
+}
+.card-title {
+font-size: 1.18rem !important;
+margin-bottom: 12px !important;
+}
+.action-box {
+padding: 14px 16px !important;
+border-radius: 14px !important;
+margin: 14px 0 !important;
+}
+.action-box p {
+font-size: 0.96rem !important;
+line-height: 1.55 !important;
+}
+.metric-pill {
+padding: 4px 10px !important;
+font-size: 0.76rem !important;
+gap: 5px !important;
+}
+.metric-grid {
+grid-template-columns: repeat(2, 1fr) !important;
+gap: 8px !important;
+}
+.metric-cell {
+padding: 10px 8px !important;
+}
+.metric-cell .val {
+font-size: 1.35rem !important;
+}
+.weather-hero {
+padding: 20px 16px !important;
+border-radius: 18px !important;
+}
+.weather-hero > div:nth-child(2) {
+gap: 12px !important;
+}
+.gl-badge {
+padding: 6px 10px !important;
+font-size: 0.72rem !important;
+border-radius: 12px !important;
+}
+.gl-badge.b1 {
+top: 6px !important;
+left: -4px !important;
+}
+.gl-badge.b2 {
+top: 24px !important;
+right: -4px !important;
+}
+.gl-badge.b3 {
+bottom: 10px !important;
+right: 4px !important;
+}
+div[data-testid="stRadio"] > div {
+flex-wrap: wrap !important;
+gap: 6px !important;
+}
+div[data-testid="stRadio"] label {
+font-size: 0.82rem !important;
+padding: 2px 6px !important;
+}
+}
+
+@media (max-width: 480px) {
+.hero-headline {
+font-size: 1.68rem !important;
+}
+.metric-grid {
+grid-template-columns: 1fr 1fr !important;
+}
+.contingency-grid {
+grid-template-columns: 1fr 1fr !important;
+gap: 6px !important;
+}
+.cont-cell {
+padding: 10px 6px !important;
+}
+.cont-cell .cv {
+font-size: 1.22rem !important;
+}
+}
 </style>
 """)
 st.markdown(MAIN_CSS, unsafe_allow_html=True)

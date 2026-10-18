@@ -537,7 +537,27 @@ margin-bottom: 8px;
 }}
 
 @media (max-width: 820px) {{
-.rc-cards-wrap {{ grid-template-columns: 1fr; gap: 80px; }}
+.rc-cards-wrap {{
+grid-template-columns: 1fr;
+gap: 62px;
+margin-top: 48px;
+}}
+.rc-role-card {{
+padding: 50px 18px 22px !important;
+border-radius: 18px !important;
+}}
+.rc-icon-float {{
+top: -40px !important;
+width: 82px !important;
+height: 82px !important;
+}}
+.rc-card-metric {{
+font-size: 2.2rem !important;
+}}
+.rc-card-desc {{
+min-height: auto !important;
+margin-bottom: 14px !important;
+}}
 }}
 
 .rc-role-card {{
